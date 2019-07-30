@@ -1,6 +1,8 @@
 package com.hqpulse.helper.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.hqpulse.helper.utils.Utils;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -114,5 +116,11 @@ public class PatientModel implements Serializable {
             builder.append("}");
         }
         return builder.toString();
+    }
+
+    @JsonIgnore
+    public boolean isValid() {
+        return Utils.isNotEmpty(this.mrdNumber)
+                && (Utils.isNotEmpty(this.firstName) || Utils.isNotEmpty(this.lastName));
     }
 }

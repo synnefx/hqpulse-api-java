@@ -1,13 +1,10 @@
 package com.hqpulse.helper;
 
 import com.hqpulse.helper.exceptions.HQPulseRestException;
-import com.hqpulse.helper.models.ApiResponse;
-import com.hqpulse.helper.models.HMISDataImportModel;
-import com.hqpulse.helper.models.PatientModel;
-import com.hqpulse.helper.models.StaffModel;
-import com.hqpulse.helper.resources.DailyImportResource;
-import com.hqpulse.helper.resources.PatientResource;
-import com.hqpulse.helper.resources.StaffResource;
+import com.hqpulse.helper.exceptions.RequestValidationError;
+import com.hqpulse.helper.models.*;
+import com.hqpulse.helper.resources.*;
+import com.hqpulse.helper.utils.Utils;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -42,11 +39,27 @@ public class HQPulseAPI {
     }
 
 
-    public static ApiResponse<String> syncPatientResource(Calendar date, Set<PatientModel> patients) throws IOException, HQPulseRestException {
+    /**
+     *
+     * @param date
+     * @param patients
+     * @return
+     * @throws IOException
+     * @throws HQPulseRestException
+     */
+    public static HQPulseResponse<String> syncPatientResource(Calendar date, Set<PatientModel> patients) throws IOException, HQPulseRestException, RequestValidationError {
         return (new PatientResource(patients, date)).syncResource();
     }
 
-    public static ApiResponse<String> syncPatientResource(Calendar date, PatientModel patient) throws IOException, HQPulseRestException {
+    /**
+     *
+     * @param date
+     * @param patient
+     * @return
+     * @throws IOException
+     * @throws HQPulseRestException
+     */
+    public static HQPulseResponse<String> syncPatientResource(Calendar date, PatientModel patient) throws IOException, HQPulseRestException, RequestValidationError {
         if (null == patient) {
             //
         }
@@ -55,11 +68,25 @@ public class HQPulseAPI {
         return (new PatientResource(tempSet, date)).syncResource();
     }
 
-    public static ApiResponse<String> syncStaffResource(Set<StaffModel> staffs) throws IOException, HQPulseRestException {
+    /**
+     *
+     * @param staffs
+     * @return
+     * @throws IOException
+     * @throws HQPulseRestException
+     */
+    public static HQPulseResponse<String> syncStaffResource(Set<StaffModel> staffs) throws IOException, HQPulseRestException, RequestValidationError {
         return (new StaffResource(staffs)).syncResource();
     }
 
-    public static ApiResponse<String> syncStaffResource(StaffModel staff) throws IOException, HQPulseRestException {
+    /**
+     *
+     * @param staff
+     * @return
+     * @throws IOException
+     * @throws HQPulseRestException
+     */
+    public static HQPulseResponse<String> syncStaffResource(StaffModel staff) throws IOException, HQPulseRestException, RequestValidationError {
         if (null == staff) {
             //
         }
@@ -68,17 +95,78 @@ public class HQPulseAPI {
         return (new StaffResource(tempSet)).syncResource();
     }
 
-    public static ApiResponse<String> syncDailayDataResource(Set<HMISDataImportModel> dailyData) throws IOException, HQPulseRestException {
+    /**
+     *
+     * @param dailyData
+     * @return
+     * @throws IOException
+     * @throws HQPulseRestException
+     */
+    public static HQPulseResponse<String> syncDailayDataResource(Set<HQPulseDataImportModel> dailyData) throws IOException, HQPulseRestException, RequestValidationError {
         return (new DailyImportResource(dailyData)).syncResource();
     }
 
-    public static ApiResponse<String> syncDailayDataResource(HMISDataImportModel dailyData) throws IOException, HQPulseRestException {
+    /**
+     *
+     * @param dailyData
+     * @return
+     * @throws IOException
+     * @throws HQPulseRestException
+     */
+    public static HQPulseResponse<String> syncDailayDataResource(HQPulseDataImportModel dailyData) throws IOException, HQPulseRestException, RequestValidationError {
         if (null == dailyData || null == dailyData.getExportDate()) {
             //
         }
-        Set<HMISDataImportModel> tempSet = new HashSet<>(1);
+        Set<HQPulseDataImportModel> tempSet = new HashSet<>(1);
         tempSet.add(dailyData);
         return (new DailyImportResource(tempSet)).syncResource();
     }
+
+
+    public static HQPulseResponse<String> syncUserResource(Set<HQPulseUserModel> users) throws IOException, HQPulseRestException, RequestValidationError {
+        return (new UserResource(users)).syncResource();
+    }
+
+    /**
+     *
+     * @param user
+     * @return
+     * @throws IOException
+     * @throws HQPulseRestException
+     */
+    public static HQPulseResponse<String> syncUserResource(HQPulseUserModel user) throws IOException, HQPulseRestException, RequestValidationError {
+        if (null == user) {
+            //
+        }
+        Set<HQPulseUserModel> tempSet = new HashSet<>(1);
+        tempSet.add(user);
+        return (new UserResource(tempSet)).syncResource();
+    }
+
+
+    public static HQPulseResponse<String> removeUser(String userId) throws IOException, HQPulseRestException, RequestValidationError {
+        if (Utils.isNotEmpty(userId)) {
+
+        }
+        return (new UserResource(userId)).delete();
+    }
+
+    public static HQPulseResponse<String> syncAddressBookResource(HQPulseAddressBookModel addressBookModel) throws IOException, HQPulseRestException, RequestValidationError {
+        if (null == addressBookModel) {
+            //
+        }
+        Set<HQPulseAddressBookModel> tempSet = new HashSet<>(1);
+        tempSet.add(addressBookModel);
+        return (new AddressBookResource(tempSet)).syncResource();
+    }
+
+
+    public static HQPulseResponse<String> removeAddressBookEntry(String addressBookId) throws IOException, HQPulseRestException, RequestValidationError {
+        if (Utils.isNotEmpty(addressBookId)) {
+
+        }
+        return (new AddressBookResource(addressBookId)).delete();
+    }
+
 
 }

@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.hqpulse.helper.HQPulseAPI;
 import com.hqpulse.helper.HQPulseClient;
 import com.hqpulse.helper.exceptions.*;
-import com.hqpulse.helper.models.ApiResponse;
+import com.hqpulse.helper.models.HQPulseResponse;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -33,7 +33,10 @@ public abstract class BaseResource<K extends Serializable> {
         return this;
     }
 
-    protected void validate() {
+    protected abstract void validateResourceRequest() throws RequestValidationError;
+
+    protected void validate() throws RequestValidationError {
+        this.validateResourceRequest();
         if (hqPulseClient == null) {
             throw new IllegalStateException("client cannot be null");
         }
@@ -101,13 +104,23 @@ public abstract class BaseResource<K extends Serializable> {
         }
     }
 
-    protected abstract Call<ApiResponse<K>> callHQPulse();
+    protected abstract Call<HQPulseResponse<K>> callHQPulse();
 
-    //protected abstract ApiResponse<String> syncResource() throws IOException, HQPulseRestException;
+    protected Call<HQPulseResponse<K>> deleteHQPulseResource(){
+        return null;
+    }
+
+    //protected abstract HQPulseResponse<String> syncResource() throws IOException, HQPulseRestException;
     //@Override
-    public ApiResponse<K> syncResource() throws IOException, HQPulseRestException {
+    public HQPulseResponse<K> syncResource() throws IOException, HQPulseRestException, RequestValidationError {
         validate();
-        Response<ApiResponse<K>> response = callHQPulse().execute();
+        Response<HQPulseResponse<K>> response = callHQPulse().execute();
+        handleResponse(response);
+        return response.body();
+    }
+
+    public HQPulseResponse<K> delete() throws IOException, HQPulseRestException, RequestValidationError {
+        Response<HQPulseResponse<K>> response = callHQPulse().execute();
         handleResponse(response);
         return response.body();
     }

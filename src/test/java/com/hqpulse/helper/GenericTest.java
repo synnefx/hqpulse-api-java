@@ -1,6 +1,7 @@
 package com.hqpulse.helper;
 
 import com.hqpulse.helper.exceptions.HQPulseRestException;
+import com.hqpulse.helper.exceptions.RequestValidationError;
 import com.hqpulse.helper.models.StaffModel;
 
 import java.io.IOException;
@@ -12,7 +13,7 @@ import java.util.Calendar;
  */
 public class GenericTest {
 
-    public static void main(String[] args) throws IOException, HQPulseRestException {
+    public static void main(String[] args) throws IOException, HQPulseRestException, RequestValidationError {
 
         HQPulseAPI.init("7df16a276e74452db73d4601335a66e4", "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3ZGYxNmEyNzZlNzQ0NTJkYjczZDQ2MDEzMzVhNjZlNCIsInRlbXAiOiI0NDMuNTM1OTIwMDUzOTE4NSJ9.o1X53hvj-xXoBX0IP15kXqOeIBLdjNROZKu1-pl2ApaHjVulyYwutfOW__anEdnWxUS_rw_POH83URKHeLNn8A");
         StaffModel staffModel = new StaffModel();

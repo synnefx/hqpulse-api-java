@@ -1,6 +1,6 @@
 package com.hqpulse.helper;
 
-import com.hqpulse.helper.models.ApiResponse;
+import com.hqpulse.helper.models.HQPulseResponse;
 import com.hqpulse.helper.models.StaffModel;
 import com.squareup.okhttp.mockwebserver.RecordedRequest;
 import junit.framework.TestCase;
@@ -17,7 +17,7 @@ public class HQPulseClientTest extends BaseTest {
         String fixtureName = "staffSyncRequest.json";
 
         expectResponse(fixtureName, 200);
-        ApiResponse<String> message = HQPulseAPI.syncStaffResource(new StaffModel());
+        HQPulseResponse<String> message = HQPulseAPI.syncStaffResource(new StaffModel());
 
         RecordedRequest request = this.server.takeRequest();
         TestCase.assertTrue(request.getHeader("User-Agent").toLowerCase().contains("hqpulse-java"));

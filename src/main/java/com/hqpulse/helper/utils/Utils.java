@@ -34,6 +34,14 @@ public class Utils {
                 .anyMatch(Objects::nonNull);
     }
 
+    public static boolean isEmpty(String str) {
+        return  null == str ||  "".equals(str.trim());
+    }
+
+    public static boolean isNotEmpty(String str) {
+        return  !isEmpty(str);
+    }
+
     public static Map<String, Object> objectToMap(ObjectMapper objectMapper, Object object) {
         Map<String, Object> origMap = objectMapper.convertValue(object, Map.class);
         Map<String, Object> map = new LinkedHashMap<>();

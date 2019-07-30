@@ -2,10 +2,7 @@ package com.hqpulse.helper;
 
 import com.hqpulse.helper.models.*;
 import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.Headers;
-import retrofit2.http.POST;
-import retrofit2.http.Path;
+import retrofit2.http.*;
 
 /**
  * @author Josekutty
@@ -15,17 +12,42 @@ public interface HQPulseAPIService {
 
     @Headers("Content-Type: application/json")
     @POST("{accountId}/import/")
-    Call<ApiResponse<String>> syncDailyData(@Path("accountId") String authId,
-                                            @Body ApiRequest<HMISDataImportModel> dataImportModal);
+    Call<HQPulseResponse<String>> syncDailyData(@Path("accountId") String authId,
+                                                @Body HQPulseRequest<HQPulseDataImportModel> dataImportModal);
 
     @Headers("Content-Type: application/json")
     @POST("{accountId}/import/{exportDate}/patients/")
-    Call<ApiResponse<String>> syncDailyPatients(@Path("accountId") String authId,
-                                                @Path("exportDate") String exportDate,
-                                                @Body ApiRequest<PatientModel> patientData);
+    Call<HQPulseResponse<String>> syncDailyPatients(@Path("accountId") String authId,
+                                                    @Path("exportDate") String exportDate,
+                                                    @Body HQPulseRequest<PatientModel> patientData);
 
     @Headers("Content-Type: application/json")
     @POST("{accountId}/import/staffs")
-    Call<ApiResponse<String>> syncStaffs(@Path("accountId") String authId,
-                                         @Body ApiRequest<StaffModel> staffData);
+    Call<HQPulseResponse<String>> syncStaffs(@Path("accountId") String authId,
+                                             @Body HQPulseRequest<StaffModel> staffData);
+
+    @Headers("Content-Type: application/json")
+    @POST("{accountId}/configuration/users/")
+    Call<HQPulseResponse<RecordKeyValue<HQPulseUserModel>>> syncUsers(@Path("accountId") String authId,
+                                                                      @Body HQPulseRequest<HQPulseUserModel> userData);
+
+
+    @Headers("Content-Type: application/json")
+    @DELETE("{accountId}/configuration/users/{userId}")
+    Call<HQPulseResponse<String>> deleteUser(@Path("accountId") String authId,
+                                                                       @Path("hmisUserId") String hmisUserId);
+
+
+    @Headers("Content-Type: application/json")
+    @POST("{accountId}/configuration/contacts/")
+    Call<HQPulseResponse<RecordKeyValue<HQPulseAddressBookModel>>> syncAddressBook(@Path("accountId") String authId,
+                                                                      @Body HQPulseRequest<HQPulseAddressBookModel> contactData);
+
+
+    @Headers("Content-Type: application/json")
+    @DELETE("{accountId}/configuration/contacts/{contactId}")
+    Call<HQPulseResponse<String>> deleteContact(@Path("accountId") String authId,
+                                             @Path("contactId") String contactId);
+
+
 }
