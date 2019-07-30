@@ -19,6 +19,10 @@ public class RoleModal implements Serializable {
         //Default constructor
     }
 
+    public RoleModal(String roleCode) {
+        this.setCode(roleCode);
+    }
+
     public Long getId() {
         return id;
     }

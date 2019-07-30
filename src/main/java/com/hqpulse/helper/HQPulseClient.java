@@ -18,7 +18,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.InetSocketAddress;
 import java.net.ProtocolException;
+import java.net.Proxy;
 import java.text.SimpleDateFormat;
 
 /**
@@ -81,6 +83,9 @@ public class HQPulseClient {
         objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:sssZ"));
         //objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
     }
+
+
+
     /**
      * Constructs a new HQpulseClient instance. To set a proxy, timeout etc, you can pass in an OkHttpClient.Builder, on which you can set
      * the timeout and proxy using:
@@ -110,9 +115,8 @@ public class HQPulseClient {
         // loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         httpClient = httpClientBuilder
-
+                //.proxy(new Proxy(Proxy.Type.HTTP,new InetSocketAddress("proxy", proxyPort)))
                 .addNetworkInterceptor(loggingInterceptor)
-                //.addInterceptor(loggingInterceptor)
                 .addInterceptor(chain -> chain.proceed(
                         chain.request()
                                 .newBuilder()

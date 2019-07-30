@@ -1,12 +1,15 @@
 package com.hqpulse.helper.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.hqpulse.helper.utils.Utils;
 
 import java.io.Serializable;
 import java.util.Calendar;
 
 
-//@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class StaffModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -117,5 +120,13 @@ public class StaffModel implements Serializable {
                 ", dateOfJoining=" + dateOfJoining +
                 ", dateResigned=" + dateResigned +
                 '}';
+    }
+
+    @JsonIgnore
+    public boolean isValid(){
+        return Utils.isNotEmpty(this.staffId)
+                && (Utils.isNotEmpty(this.firstName)
+                || Utils.isNotEmpty(this.lastName))
+                && Utils.isNotEmpty(this.designation);
     }
 }
