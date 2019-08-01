@@ -41,6 +41,10 @@ public class HQPulseUserModel implements Serializable {
 
     private List<RoleModal> roles = new ArrayList<>();
 
+    public HQPulseUserModel(){
+
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -129,11 +133,11 @@ public class HQPulseUserModel implements Serializable {
         this.roles = roles;
     }
 
-    public void setUserRoles(Iterable<String> roleCodes) {
+    public void setUserRoles(Iterable<Utils.UserRole> roleCodes) {
         if(null != roleCodes){
-            for (String code:roleCodes) {
+            for (Utils.UserRole code:roleCodes) {
                 //Validate role code here
-                this.getRoles().add(new RoleModal(code));
+                this.getRoles().add(new RoleModal(code.getRoleCode()));
             }
         }
         this.roles = roles;

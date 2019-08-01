@@ -1,6 +1,9 @@
 package com.hqpulse.helper.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -124,6 +127,27 @@ public class Utils {
             return testDate.after(Calendar.getInstance(Utils.UTC_TIME_ZONE));
         }
         return false;
+    }
+
+
+    /**
+     * User roles support by HQPulse
+     */
+    public enum UserRole {
+
+        DEFAULT_USER("DEFAULT"),SUPER_USER ("PROD_ADMIN"), QUALITY_DEPARTMENT_ADMIN("ACC_ADMIN"),
+        QUALITY_MANAGER("QM"), UNIT_IN_CHARGE("UNIT_IN_CHARGE"),CEO("CEO"),
+        COMPLAINT_MANGER("COMPLAINT_MANGER"),AUDIT_MANGER("AUDIT_MANGER"), INCIDENT_MANGER("IR_MANGER");
+
+        private String roleCode;
+
+        UserRole(String code){
+            this.roleCode = code;
+        }
+
+        public String getRoleCode() {
+            return roleCode;
+        }
     }
 
 }
