@@ -6,6 +6,7 @@ import com.hqpulse.helper.models.*;
 import com.hqpulse.helper.resources.*;
 import com.hqpulse.helper.utils.Utils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashSet;
@@ -22,7 +23,20 @@ public class HQPulseAPI {
     /**
      * Initializes the global {@link HQPulseClient} hqpulseInstance
      */
-    public static synchronized void init(String authId, String authToken) {
+    public static synchronized void init(String hqPulseHost, String authId, String authToken) {
+        if(null != hqPulseHost){
+            hqPulseHost = hqPulseHost.trim();
+            if(hqPulseHost.endsWith("/")){
+                hqPulseHost += "service/v1/";
+            }else{
+                hqPulseHost += "/service/v1/";
+            }
+
+        }
+        hqpulseInstance = new HQPulseClient(authId, authToken, hqPulseHost);
+    }
+
+    public static synchronized void init( String authId, String authToken) {
         hqpulseInstance = new HQPulseClient(authId, authToken);
     }
 
@@ -31,7 +45,11 @@ public class HQPulseAPI {
      * environment variables called HQPULSE_AUTH_ID and HQPULSE_AUTH_TOKEN.
      */
     public static synchronized void init() {
-        init(System.getenv("HQPULSE_AUTH_ID"), System.getenv("HQPULSE_AUTH_TOKEN"));
+        String hostName = System.getenv("HQPULSE_HOST_URL");
+        if(null == hostName || "".equals(hostName.trim())){
+            init(System.getenv("HQPULSE_AUTH_ID"), System.getenv("HQPULSE_AUTH_TOKEN"));
+        }
+        init(hostName,System.getenv("HQPULSE_AUTH_ID"), System.getenv("HQPULSE_AUTH_TOKEN"));
     }
 
     public static HQPulseClient getClient() {
@@ -166,6 +184,19 @@ public class HQPulseAPI {
 
         }
         return (new AddressBookResource(addressBookId)).delete();
+    }
+
+    public static HQPulseResponse<DocumentModel> listDocuments(String directoryReference) throws IOException, HQPulseRestException, RequestValidationError {
+        return (new DocumentResource()).getDocuments(directoryReference);
+    }
+
+
+    public static File downloadDocument(String documentReference) throws RequestValidationError, HQPulseRestException, IOException {
+        return (new DocumentResource()).download(documentReference);
+    }
+
+    public static HQPulseResponse<HQPulseNotificationModel> getActivieNotification() throws IOException, HQPulseRestException, RequestValidationError {
+        return (new NotificationResource()).syncResource();
     }
 
 

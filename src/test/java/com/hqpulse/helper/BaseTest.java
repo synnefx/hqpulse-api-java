@@ -23,7 +23,7 @@ public class BaseTest {
 
   protected MockWebServer server;
   protected String accountId = "7df16a276e74452db73d4601335a66e4";
-  private String authToken = "authToken";
+  private String authToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3ZGYxNmEyNzZlNzQ0NTJkYjczZDQ2MDEzMzVhNjZlNCIsInRlbXAiOiI0NDMuNTM1OTIwMDUzOTE4NSJ9.o1X53hvj-xXoBX0IP15kXqOeIBLdjNROZKu1-pl2ApaHjVulyYwutfOW__anEdnWxUS_rw_POH83URKHeLNn8A";
   private ObjectMapper mapper = new ObjectMapper();
 
   protected String expectResponse(String fixtureName, int statusCode) {
@@ -97,8 +97,8 @@ public class BaseTest {
     server = new MockWebServer();
     server.start();
 
-    HQPulseClient.BASE_URL = server.url("/").toString();
-    HQPulseAPI.init(accountId, authToken);
+    //HQPulseClient.BASE_URL = server.url("/").toString();
+    HQPulseAPI.init("http://localhost:8085",accountId, authToken);
     HQPulseAPI.getClient().setTesting(true);
   }
 

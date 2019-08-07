@@ -110,6 +110,7 @@ public abstract class BaseResource<K extends Serializable> {
         return null;
     }
 
+
     //protected abstract HQPulseResponse<String> syncResource() throws IOException, HQPulseRestException;
     //@Override
     public HQPulseResponse<K> syncResource() throws IOException, HQPulseRestException, RequestValidationError {

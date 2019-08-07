@@ -28,7 +28,7 @@ import java.text.SimpleDateFormat;
  */
 public class HQPulseClient {
 
-    protected static String BASE_URL = "https://dev.cqms.synnefx.com/service/hmis/v1/";
+    protected static String BASE_URL = "https://dev.cqms.synnefx.com/service/v1/";
     private static SimpleModule simpleModule = new SimpleModule();
     private static String version = "Unknown Version";
     private static ObjectMapper objectMapper = new ObjectMapper();
@@ -173,8 +173,12 @@ public class HQPulseClient {
         this(authId, authToken, new OkHttpClient.Builder(), BASE_URL, simpleModule);
     }
 
+    public HQPulseClient(String authId, String authToken, String host) {
+        this(authId, authToken, new OkHttpClient.Builder(), host, simpleModule);
+    }
+
     /**
-     * Constructs a new HQpulseClient instance. To set a proxy, timeout etc, you can pass in an OkHttpClient.Builder, on which you can set
+     * Constructs a new HQPulseClient instance. To set a proxy, timeout etc, you can pass in an OkHttpClient.Builder, on which you can set
      * the timeout and proxy using:
      *
      * <pre><code>

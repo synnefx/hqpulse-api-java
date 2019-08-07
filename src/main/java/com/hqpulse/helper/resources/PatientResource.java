@@ -4,7 +4,6 @@ import com.hqpulse.helper.exceptions.RequestValidationError;
 import com.hqpulse.helper.models.HQPulseRequest;
 import com.hqpulse.helper.models.HQPulseResponse;
 import com.hqpulse.helper.models.PatientModel;
-import com.hqpulse.helper.models.StaffModel;
 import com.hqpulse.helper.utils.Utils;
 import retrofit2.Call;
 

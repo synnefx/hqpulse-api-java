@@ -1,9 +1,6 @@
 package com.hqpulse.helper.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -148,6 +145,20 @@ public class Utils {
         public String getRoleCode() {
             return roleCode;
         }
+    }
+
+    public static String substringAfter(final String str, final String separator) {
+        if (isEmpty(str)) {
+            return str;
+        }
+        if (separator == null) {
+            return "";
+        }
+        final int pos = str.indexOf(separator);
+        if (pos == -1) {
+            return "";
+        }
+        return str.substring(pos + separator.length());
     }
 
 }
