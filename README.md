@@ -291,3 +291,5 @@ When an HMIS user clicks on the link/button to HQPulse, the HMIS must redirect t
 ```
 {hqpulse_url}?token=ssoAuthToken
 ```
+
+Contact support@hqpulse.com
